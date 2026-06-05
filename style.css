@@ -1,0 +1,464 @@
+/* ─── RESET & TOKENS ─────────────────────────────── */
+*, *::before, *::after { 
+  box-sizing: border-box; 
+  margin: 0; 
+  padding: 0; 
+}
+
+:root {
+  --bg:       #0d0d0f;
+  --surface:  #16161a;
+  --card:     #1e1e24;
+  --border:   #2a2a35;
+  --accent:   #f0c040;
+  --accent2:  #e05c2a;
+  --text:     #eeeef2;
+  --muted:    #7c7c96;
+  --success:  #3ecf8e;
+  --radius:   12px;
+}
+
+body {
+  font-family: 'DM Sans', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 32px 16px 80px;
+}
+
+/* ─── HEADER ─────────────────────────────────────── */
+header {
+  width: 100%;
+  max-width: 860px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 40px;
+}
+.logo {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 2rem;
+  letter-spacing: 2px;
+  color: var(--accent);
+}
+.logo span { 
+  color: var(--accent2); 
+}
+
+/* ─── STEP INDICATOR ─────────────────────────────── */
+.steps {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+.step {
+  width: 32px; 
+  height: 32px;
+  border-radius: 50%;
+  border: 2px solid var(--border);
+  display: grid; 
+  place-items: center;
+  font-size: .8rem; 
+  font-weight: 600;
+  color: var(--muted);
+  transition: all .3s;
+}
+.step.active { 
+  border-color: var(--accent); 
+  color: var(--accent); 
+  background: rgba(240,192,64,.1); 
+}
+.step.done { 
+  border-color: var(--success); 
+  background: var(--success); 
+  color: #000; 
+}
+.step-line { 
+  width: 40px; 
+  height: 2px; 
+  background: var(--border); 
+  border-radius: 2px; 
+}
+.step-line.done { 
+  background: var(--success); 
+}
+
+/* ─── MAIN CARD ──────────────────────────────────── */
+.card {
+  width: 100%; 
+  max-width: 860px;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+
+/* ─── SECTION (each step panel) ─────────────────── */
+.section { 
+  display: none; 
+  padding: 36px; 
+  animation: fadeUp .35s ease; 
+}
+.section.active { 
+  display: block; 
+}
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(14px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+h2 {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 1.7rem;
+  letter-spacing: 1px;
+  margin-bottom: 6px;
+  color: var(--text);
+}
+.sub { 
+  color: var(--muted); 
+  font-size: .9rem; 
+  margin-bottom: 28px; 
+}
+
+/* ─── EVENT GRID ─────────────────────────────────── */
+.events-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 16px;
+}
+.event-card {
+  background: var(--surface);
+  border: 2px solid var(--border);
+  border-radius: var(--radius);
+  padding: 20px;
+  cursor: pointer;
+  transition: border-color .25s, transform .2s;
+  position: relative;
+}
+.event-card:hover { 
+  border-color: var(--accent); 
+  transform: translateY(-3px); 
+}
+.event-card.selected { 
+  border-color: var(--accent); 
+  background: rgba(240,192,64,.06); 
+}
+.event-card .badge {
+  display: inline-block;
+  background: var(--accent2);
+  color: #fff;
+  font-size: .7rem;
+  font-weight: 600;
+  padding: 2px 8px;
+  border-radius: 20px;
+  margin-bottom: 10px;
+  text-transform: uppercase;
+  letter-spacing: .5px;
+}
+.event-card h3 { 
+  font-size: 1rem; 
+  font-weight: 600; 
+  margin-bottom: 6px; 
+}
+.event-card .meta { 
+  font-size: .82rem; 
+  color: var(--muted); 
+  line-height: 1.6; 
+}
+.event-card .price {
+  margin-top: 14px;
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 1.3rem;
+  color: var(--accent);
+}
+.check-mark {
+  position: absolute; 
+  top: 12px; 
+  right: 12px;
+  width: 22px; 
+  height: 22px;
+  border-radius: 50%;
+  background: var(--accent);
+  color: #000;
+  font-size: .75rem;
+  display: none; 
+  place-items: center;
+  font-weight: 700;
+}
+.event-card.selected .check-mark { 
+  display: grid; 
+}
+
+/* ─── SEAT MAP ───────────────────────────────────── */
+.screen-label {
+  text-align: center;
+  background: linear-gradient(180deg, rgba(240,192,64,.25), transparent);
+  border-top: 3px solid var(--accent);
+  padding: 8px;
+  border-radius: 4px;
+  font-size: .78rem;
+  color: var(--accent);
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  margin-bottom: 28px;
+}
+.seat-section { 
+  margin-bottom: 24px; 
+}
+.seat-section-label { 
+  font-size: .75rem; 
+  color: var(--muted); 
+  text-transform: uppercase; 
+  letter-spacing: 1px; 
+  margin-bottom: 10px; 
+}
+.seat-row {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+  margin-bottom: 8px;
+}
+.seat {
+  width: 34px; 
+  height: 34px;
+  border-radius: 6px 6px 3px 3px;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  cursor: pointer;
+  display: grid; 
+  place-items: center;
+  font-size: .65rem; 
+  color: var(--muted);
+  transition: all .18s;
+}
+.seat:hover:not(.taken) { 
+  border-color: var(--accent); 
+  background: rgba(240,192,64,.1); 
+}
+.seat.selected { 
+  background: var(--accent); 
+  border-color: var(--accent); 
+  color: #000; 
+  font-weight: 700; 
+}
+.seat.taken { 
+  background: #2a2a35; 
+  border-color: #2a2a35; 
+  cursor: not-allowed; 
+  color: #3d3d50; 
+}
+
+.legend {
+  display: flex; 
+  gap: 20px; 
+  justify-content: center;
+  margin-top: 20px; 
+  flex-wrap: wrap;
+}
+.legend-item { 
+  display: flex; 
+  align-items: center; 
+  gap: 8px; 
+  font-size: .82rem; 
+  color: var(--muted); 
+}
+.legend-dot {
+  width: 18px; 
+  height: 18px;
+  border-radius: 4px;
+  border: 1px solid transparent;
+}
+
+/* ─── FORM ───────────────────────────────────────── */
+.form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 18px;
+}
+.form-group { 
+  display: flex; 
+  flex-direction: column; 
+  gap: 6px; 
+}
+.form-group.full { 
+  grid-column: 1 / -1; 
+}
+label { 
+  font-size: .82rem; 
+  color: var(--muted); 
+  font-weight: 500; 
+}
+input, select {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 11px 14px;
+  color: var(--text);
+  font-family: 'DM Sans', sans-serif;
+  font-size: .9rem;
+  transition: border-color .2s;
+  outline: none;
+}
+input:focus, select:focus { 
+  border-color: var(--accent); 
+}
+select option { 
+  background: var(--surface); 
+}
+
+/* ─── SUMMARY / CONFIRM ──────────────────────────── */
+.summary-box {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 24px;
+  margin-bottom: 24px;
+}
+.summary-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: 10px 0;
+  border-bottom: 1px solid var(--border);
+  font-size: .9rem;
+}
+.summary-row:last-child { 
+  border-bottom: none; 
+}
+.summary-row .key { 
+  color: var(--muted); 
+}
+.summary-row .val { 
+  font-weight: 600; 
+  text-align: right; 
+}
+.total-row { 
+  font-family: 'Bebas Neue', sans-serif; 
+  font-size: 1.2rem; 
+}
+.total-row .val { 
+  color: var(--accent); 
+  font-size: 1.5rem; 
+}
+
+/* ─── BUTTONS ────────────────────────────────────── */
+.btn-row { 
+  display: flex; 
+  gap: 12px; 
+  margin-top: 30px; 
+  justify-content: flex-end; 
+}
+.btn {
+  padding: 12px 28px;
+  border-radius: 8px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: .9rem; 
+  font-weight: 600;
+  cursor: pointer;
+  border: none;
+  transition: all .2s;
+}
+.btn-primary {
+  background: var(--accent);
+  color: #000;
+}
+.btn-primary:hover { 
+  background: #ffd44e; 
+  transform: translateY(-1px); 
+}
+.btn-secondary {
+  background: transparent;
+  color: var(--muted);
+  border: 1px solid var(--border);
+}
+.btn-secondary:hover { 
+  color: var(--text); 
+  border-color: var(--muted); 
+}
+
+/* ─── SUCCESS ────────────────────────────────────── */
+.success-panel {
+  text-align: center;
+  padding: 60px 36px;
+}
+.success-icon {
+  width: 80px; 
+  height: 80px;
+  border-radius: 50%;
+  background: var(--success);
+  color: #000;
+  font-size: 2rem;
+  display: grid; 
+  place-items: center;
+  margin: 0 auto 24px;
+  animation: popIn .4s cubic-bezier(.175,.885,.32,1.275);
+}
+
+@keyframes popIn {
+  from { transform: scale(0); opacity: 0; }
+  to   { transform: scale(1); opacity: 1; }
+}
+
+.ticket {
+  background: var(--surface);
+  border: 2px dashed var(--border);
+  border-radius: var(--radius);
+  padding: 24px 32px;
+  max-width: 400px;
+  margin: 28px auto 0;
+  text-align: left;
+}
+.ticket-header {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 1.4rem;
+  letter-spacing: 1px;
+  color: var(--accent);
+  border-bottom: 1px dashed var(--border);
+  padding-bottom: 12px;
+  margin-bottom: 16px;
+  display: flex; 
+  justify-content: space-between; 
+  align-items: center;
+}
+.ticket-id { 
+  font-size: .75rem; 
+  color: var(--muted); 
+  font-family: 'DM Sans', sans-serif; 
+}
+.ticket-row { 
+  display: flex; 
+  justify-content: space-between; 
+  font-size: .88rem; 
+  padding: 5px 0; 
+}
+.ticket-row .k { 
+  color: var(--muted); 
+}
+.ticket-row .v { 
+  font-weight: 600; 
+}
+
+/* ─── SEAT COUNT BADGE ───────────────────────────── */
+.sel-badge {
+  display: inline-block;
+  background: rgba(240,192,64,.15);
+  color: var(--accent);
+  border: 1px solid rgba(240,192,64,.3);
+  border-radius: 20px;
+  padding: 3px 12px;
+  font-size: .82rem;
+  font-weight: 600;
+  margin-left: 10px;
+}
+
+/* ─── RESPONSIVE ─────────────────────────────────── */
+@media (max-width: 560px) {
+  .form-grid { grid-template-columns: 1fr; }
+  .form-group.full { grid-column: 1; }
+  .steps { gap: 4px; }
+  .step-line { width: 20px; }
+}
