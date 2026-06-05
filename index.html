@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>TicketZone – Book Your Seat</title>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <header>
+    <div class="logo">Ticket<span>Zone</span></div>
+    <div class="steps">
+      <div class="step active" id="s1">1</div>
+      <div class="step-line" id="l1"></div>
+      <div class="step" id="s2">2</div>
+      <div class="step-line" id="l2"></div>
+      <div class="step" id="s3">3</div>
+      <div class="step-line" id="l3"></div>
+      <div class="step" id="s4">4</div>
+    </div>
+  </header>
+
+  <div class="card">
+
+    <div class="section active" id="step1">
+      <h2>Choose an Event</h2>
+      <p class="sub">Select the event you'd like to attend</p>
+      <div class="events-grid" id="eventsGrid"></div>
+      <div class="btn-row">
+        <button class="btn btn-primary" onclick="goStep(2)">Select Seats →</button>
+      </div>
+    </div>
+
+    <div class="section" id="step2">
+      <h2>Pick Your Seats <span class="sel-badge" id="seatCount">0 selected</span></h2>
+      <p class="sub">Click available seats to select them. Max 6 seats per booking.</p>
+      <div class="screen-label">◀ SCREEN / STAGE ▶</div>
+      <div id="seatMap"></div>
+      <div class="legend">
+        <div class="legend-item"><div class="legend-dot" style="background:var(--surface);border-color:var(--border)"></div>Available</div>
+        <div class="legend-item"><div class="legend-dot" style="background:var(--accent);border-color:var(--accent)"></div>Selected</div>
+        <div class="legend-item"><div class="legend-dot" style="background:#2a2a35;border-color:#2a2a35"></div>Taken</div>
+      </div>
+      <div class="btn-row">
+        <button class="btn btn-secondary" onclick="goStep(1)">← Back</button>
+        <button class="btn btn-primary" onclick="goStep(3)">Continue →</button>
+      </div>
+    </div>
+
+    <div class="section" id="step3">
+      <h2>Your Details</h2>
+      <p class="sub">Fill in your information to complete the booking</p>
+      <div class="form-grid">
+        <div class="form-group">
+          <label for="fname">First Name</label>
+          <input type="text" id="fname" placeholder="Priya" />
+        </div>
+        <div class="form-group">
+          <label for="lname">Last Name</label>
+          <input type="text" id="lname" placeholder="Sharma" />
+        </div>
+        <div class="form-group full">
+          <label for="email">Email Address</label>
+          <input type="email" id="email" placeholder="priya@example.com" />
+        </div>
+        <div class="form-group">
+          <label for="phone">Phone Number</label>
+          <input type="tel" id="phone" placeholder="+91 98765 43210" />
+        </div>
+        <div class="form-group">
+          <label for="payment">Payment Method</label>
+          <select id="payment">
+            <option value="">Select…</option>
+            <option>UPI / GPay</option>
+            <option>Credit / Debit Card</option>
+            <option>Net Banking</option>
+            <option>Wallet</option>
+          </select>
+        </div>
+      </div>
+      <div class="btn-row">
+        <button class="btn btn-secondary" onclick="goStep(2)">← Back</button>
+        <button class="btn btn-primary" onclick="goStep(4)">Review Booking →</button>
+      </div>
+    </div>
+
+    <div class="section" id="step4">
+      <h2>Review & Confirm</h2>
+      <p class="sub">Double-check everything before you confirm</p>
+      <div class="summary-box" id="summaryBox"></div>
+      <div class="btn-row">
+        <button class="btn btn-secondary" onclick="goStep(3)">← Edit Details</button>
+        <button class="btn btn-primary" onclick="confirmBooking()">✓ Confirm Booking</button>
+      </div>
+    </div>
+
+    <div class="section" id="stepDone">
+      <div class="success-panel">
+        <div class="success-icon">✓</div>
+        <h2 style="font-size:2rem">Booking Confirmed!</h2>
+        <p class="sub" style="margin-bottom:0">Your e-ticket is ready. Check your email for details.</p>
+        <div class="ticket" id="ticketDisplay"></div>
+        <div class="btn-row" style="justify-content:center;margin-top:32px">
+          <button class="btn btn-primary" onclick="resetAll()">Book Another Ticket</button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
